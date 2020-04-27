@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import pprint
+import subprocess
+
+import pdb
+
+def get_length(file):
+    print("mediainfo --Inform='Video;%Duration' " + file);
+    
+    p = subprocess.Popen("mediainfo --Inform='Video;%Duration%' " + file,
+                         shell=True, stdout=subprocess.PIPE, close_fds=True );
+    line = p.stdout.read().decode('ascii').strip()
+    print("Duration string " + line)
+    
+    ms   = float(line)
+    print("Movie length %d ms" % ms)
+
+
+def main(files):
+    """Open files and look around"""
+
+    if len(files) != 3:
+        print("I can compare exactly two files, no more no less")
+        sys.exit(1)
+
+    duration = get_length(files[1]);
+    
+
+if __name__ == '__main__': main(sys.argv)
